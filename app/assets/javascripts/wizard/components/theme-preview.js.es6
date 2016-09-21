@@ -41,8 +41,18 @@ export default createPreviewComponent(659, 320, {
     const logoWidth = (logoHeight / this.logo.height) * this.logo.width;
     ctx.drawImage(this.logo, headerMargin, headerMargin, logoWidth, logoHeight);
 
+    // scale the avatar so it doesn't render tiny/blocky
+    // see http://stackoverflow.com/q/18761404
+    var temp_canvas = document.createElement('canvas');
+    temp_canvas.width = 180;
+    temp_canvas.height = 180;
+    var ctx2 = temp_canvas.getContext('2d');
+    ctx2.drawImage(this.avatar, 0, 0, 180, 180);
+    ctx2.drawImage(temp_canvas, 0, 0, 180, 180, 0, 0, 120, 120);
+    ctx2.drawImage(temp_canvas, 0, 0, 120, 120, 0, 0, 60, 60);    
+
     // Top right menu
-    ctx.drawImage(this.avatar, width - avatarSize - headerMargin, headerMargin, avatarSize, avatarSize);
+    ctx.drawImage(temp_canvas, width - avatarSize - headerMargin, headerMargin, avatarSize, avatarSize);
     ctx.fillStyle = darkLightDiff(colors.primary, colors.secondary, 45, 55);
 
     const headerFontSize = headerHeight / 44;
