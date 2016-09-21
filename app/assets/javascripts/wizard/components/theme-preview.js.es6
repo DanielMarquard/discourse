@@ -43,16 +43,18 @@ export default createPreviewComponent(659, 320, {
 
     // scale the avatar so it doesn't render tiny/blocky
     // see http://stackoverflow.com/q/18761404
-    var temp_canvas = document.createElement('canvas');
-    temp_canvas.width = 180;
-    temp_canvas.height = 180;
-    var ctx2 = temp_canvas.getContext('2d');
+    var avatar_scaled = document.createElement('canvas');
+    avatar_scaled.width = 180;
+    avatar_scaled.height = 180;
+    var ctx2 = avatar_scaled.getContext('2d');
     ctx2.drawImage(this.avatar, 0, 0, 180, 180);
-    ctx2.drawImage(temp_canvas, 0, 0, 180, 180, 0, 0, 120, 120);
-    ctx2.drawImage(temp_canvas, 0, 0, 120, 120, 0, 0, 60, 60);    
+    ctx2.drawImage(avatar_scaled, 0, 0, 180, 180, 0, 0, 120, 120);
+    ctx2.drawImage(avatar_scaled, 0, 0, 120, 120, 0, 0, 60, 60);   
+    avatar_scaled.width = 60;
+    avatar_scaled.height = 60; 
 
     // Top right menu
-    ctx.drawImage(temp_canvas, width - avatarSize - headerMargin, headerMargin, avatarSize, avatarSize);
+    ctx.drawImage(avatar_scaled, width - avatarSize - headerMargin, headerMargin, avatarSize, avatarSize);
     ctx.fillStyle = darkLightDiff(colors.primary, colors.secondary, 45, 55);
 
     const headerFontSize = headerHeight / 44;
@@ -62,7 +64,7 @@ export default createPreviewComponent(659, 320, {
     ctx.fillText("\uf002", width - (avatarSize * 3) - (headerMargin * 0.5), avatarSize);
 
     // Draw a fake topic
-    ctx.drawImage(this.avatar, margin, headerHeight + (height * 0.17), avatarSize, avatarSize);
+    ctx.drawImage(avatar_scaled, margin, headerHeight + (height * 0.17), avatarSize, avatarSize);
 
     ctx.beginPath();
     ctx.fillStyle = colors.primary;
